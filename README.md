@@ -34,3 +34,8 @@ composer req twig
 ```bash
 composer require symfony/asset
 ```
+
+# Creando la primera entidad
+```bash
+php bin/console make:entity
+```
