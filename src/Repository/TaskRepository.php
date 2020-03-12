@@ -14,37 +14,43 @@ use Doctrine\Common\Persistence\ManagerRegistry;
  */
 class TaskRepository extends ServiceEntityRepository
 {
-    public function __construct(ManagerRegistry $registry)
+    public function __construct(ManagerRegistry $registry, TaskListRepository $taskListRepository)
     {
         parent::__construct($registry, Task::class);
+        $this->taskListRepository  = $taskListRepository;
     }
 
-    // /**
-    //  * @return Task[] Returns an array of Task objects
-    //  */
-    /*
-    public function findByExampleField($value)
+    public function createTask($title, $list_id)
     {
-        return $this->createQueryBuilder('t')
-            ->andWhere('t.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('t.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
+        $task = new Task();
+        $task->setTitle($title);
+        $entityManager = $this->getEntityManager();
+        if ($list_id != null) {
+            /** @var TaskList $listRepo */
+            $listRepo = $this->taskListRepository->find($list_id);
+            $task->setTaskList($listRepo);
+            $listRepo->addTask($task);
+            $entityManager->persist($listRepo);
+        }
+        $task->setIsDone(false);
+        $entityManager->persist($task);
+        $entityManager->flush();
     }
-    */
 
-    /*
-    public function findOneBySomeField($value): ?Task
+    public function toggleTask($id)
     {
-        return $this->createQueryBuilder('t')
-            ->andWhere('t.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
+        $entityManager = $this->getEntityManager();
+        $task = $this->find($id);
+        $task->setIsDone(!$task->getIsDone());
+        $entityManager->persist($task);
+        $entityManager->flush();
     }
-    */
+
+    public function deleteTask($id)
+    {
+        $entityManager = $this->getEntityManager();
+        $task = $this->find($id);
+        $entityManager->remove($task);
+        $entityManager->flush();
+    }
 }

@@ -19,32 +19,12 @@ class TaskListRepository extends ServiceEntityRepository
         parent::__construct($registry, TaskList::class);
     }
 
-    // /**
-    //  * @return TaskList[] Returns an array of TaskList objects
-    //  */
-    /*
-    public function findByExampleField($value)
+    public function createTaskList($title)
     {
-        return $this->createQueryBuilder('t')
-            ->andWhere('t.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('t.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
+        $entityManager = $this->getEntityManager();
+        $taskList = new TaskList();
+        $taskList->setTitle($title);
+        $entityManager->persist($taskList);
+        $entityManager->flush();
     }
-    */
-
-    /*
-    public function findOneBySomeField($value): ?TaskList
-    {
-        return $this->createQueryBuilder('t')
-            ->andWhere('t.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
-    }
-    */
 }
