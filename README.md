@@ -34,3 +34,17 @@ composer req twig
 ```bash
 composer require symfony/asset
 ```
+
+## Creando las primeras entidades
+```bash
+php bin/console make:entity
+```
+
+## Creando la BBDD
+```bash
+sudo apt-get install php-sqlite3
+php bin/console doctrine:database:create
+php bin/console make:migration
+```
+
+
