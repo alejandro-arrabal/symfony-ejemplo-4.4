@@ -79,7 +79,7 @@ class TaskController extends FOSRestController
         $taskRepository->deleteTask($id);
         $response = [
             'code' => 200,
-            'message' => 'Entity updated'
+            'message' => 'Entity delete'
         ];
         return new Response($serializer->serialize($response, "json"));
     }
