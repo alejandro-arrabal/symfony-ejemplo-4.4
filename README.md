@@ -5,7 +5,8 @@
 
 ## orm doctrine
 ```bash
-composer req doctrine/orm
+composer require symfony/orm-pack
+composer require --dev symfony/maker-bundle
 ```
 
 ## Receta para instalar jms/serializer-bundle:
