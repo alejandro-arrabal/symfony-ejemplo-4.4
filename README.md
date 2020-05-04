@@ -6,9 +6,6 @@
 symfony check:requirements
 ```
 
-
-
-
 # Instalación de bundles
 
 ## orm doctrine
