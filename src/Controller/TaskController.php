@@ -3,9 +3,10 @@
 namespace App\Controller;
 
 use App\Repository\TaskRepository;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+
+use FOS\RestBundle\Controller\AbstractFOSRestController;
+use JMS\Serializer\SerializerInterface;
 use Symfony\Component\HttpFoundation\Request;
-use FOS\RestBundle\Controller\FOSRestController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -13,14 +14,13 @@ use Symfony\Component\Routing\Annotation\Route;
  * Class CollaboratorController
  * @Route("/api/task")
  */
-class TaskController extends FOSRestController
+class TaskController extends AbstractFOSRestController
 {
     /**
      * @Route("/{id}", methods={"GET"})
      */
-    public function getTask($id, TaskRepository $taskRepository)
+    public function getTask($id, TaskRepository $taskRepository, SerializerInterface $serializer)
     {
-        $serializer = $this->get('jms_serializer');
         $task = $taskRepository->find($id);
         $response = $task != null ?
             [
@@ -39,11 +39,11 @@ class TaskController extends FOSRestController
      */
     public function postTask(
         Request $request,
-        TaskRepository $taskRepository
+        TaskRepository $taskRepository,
+        SerializerInterface $serializer
     ) {
         $title = $request->get('title', "no_name");
         $list_id = $request->get('list_id');
-        $serializer = $this->get('jms_serializer');
         $taskRepository->createTask($title, $list_id);
         $response = [
             'code' => 200,
@@ -57,9 +57,9 @@ class TaskController extends FOSRestController
      */
     public function toggleTask(
         $id,
-        TaskRepository $taskRepository
+        TaskRepository $taskRepository,
+        SerializerInterface $serializer
     ) {
-        $serializer = $this->get('jms_serializer');
         $taskRepository->toggleTask($id);
         $response = [
             'code' => 200,
@@ -73,9 +73,9 @@ class TaskController extends FOSRestController
      */
     public function deleteTask(
         $id,
-        TaskRepository $taskRepository
+        TaskRepository $taskRepository,
+        SerializerInterface $serializer
     ) {
-        $serializer = $this->get('jms_serializer');
         $taskRepository->deleteTask($id);
         $response = [
             'code' => 200,

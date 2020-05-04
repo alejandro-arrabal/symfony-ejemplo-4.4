@@ -1,5 +1,13 @@
 "# symfony-ejemplo-4.4" 
 
+# Comprobar dependencías
+
+```bash
+symfony check:requirements
+```
+
+
+
 
 # Instalación de bundles
 
@@ -47,5 +55,8 @@ php bin/console doctrine:database:create
 php bin/console make:migration
 php bin/console doctrine:migrations:migrate 
 ```
+
+## Arrancando el servidor
+symfony server:start
 
 
